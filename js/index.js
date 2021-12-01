@@ -1,6 +1,6 @@
 // the api url to send requests
 const url = "https://api.genderize.io/"
-
+var serverOutput;
 // shows appropriate error message on the web page using a <p> tag
 function showError(errorContent) {
     console.log("Show error")
@@ -44,7 +44,7 @@ async function sendRequest(e) {
     console.log("clicked on submit");
     let name = document.getElementById("name").value;
     let validation = validator()
-    if (username == "") {
+    if (name == "") {
         console.log("username was empty");
         showError("Enter a name")
         return;
@@ -56,6 +56,7 @@ async function sendRequest(e) {
     }
     e.preventDefault();
     let data = await getGenderFromAPI(name);
+    serverOutput = data;
     console.log(data)
     handleOutputData(data)
 }
@@ -67,10 +68,20 @@ function handleOutputData(data){
     showAPIData(data)
 }
 
-// saved data declared by client
+// saved data either declared by client or from server
 function saveData(){
     let name = document.getElementById("name").value;
-    let gender = document.querySelector('input[name="gender"]:checked').value;
+    let gender;
+    if(document.getElementById("gender-male").checked){
+        gender = "male";
+    }
+    else if(document.getElementById("gender-female").checked){
+        gender = "female";
+    }
+    else {
+        gender = serverOutput.gender
+    }
+    console.log(gender)
     window.localStorage.setItem(name, gender);
 }
 
