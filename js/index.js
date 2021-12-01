@@ -7,7 +7,7 @@ function showError(errorContent) {
     textareaObject.innerHTML = errorContent;
     setTimeout(() => { // removes the error message from screen after 4 seconds.
         textareaObject.innerHTML = ""
-    }, 3000)
+    }, 4000)
 
 }
 
@@ -36,12 +36,21 @@ async function getGenderFromAPI(name) {
 
 // the process of sending data and fill it in view.
 async function sendRequest(e) {
+    document.getElementById("saved-data").innerHTML = "";
+    document.getElementById("api-data").innerHTML = "";
+    document.getElementById("prob").innerHTML = "";
     console.log("clicked on submit");
     let username = document.getElementById("name").value;
+    let validation = validator()
     if (username == "") {
         console.log("username was empty");
         showError("Enter a name")
         return;
+    }
+    else if(validation !== ""){
+        console.log(validation)
+        showError(validation)
+        return
     }
     e.preventDefault();
     let userData = await getGenderFromAPI(username);
@@ -50,9 +59,7 @@ async function sendRequest(e) {
 }
 
 function handleUserData(userData){
-    document.getElementById("saved-data").innerHTML = "";
-    document.getElementById("api-data").innerHTML = "";
-    document.getElementById("prob").innerHTML = "";
+
     showSavedData(userData.name)
     showAPIData(userData)
 }
@@ -87,6 +94,28 @@ function showAPIData(data){
 
 }
 
+
+function checkInput(){
+    let err = validator()
+    showError(err)
+}
+
+function validator(){
+    let input = document.getElementById("name").value;
+    let length = input.length
+    var reg = /^[a-zA-Z\s]*$/;
+    let lenErr = ""
+    let regErr = ""
+    if(length > 255){
+        lenErr = "Input too big. "
+    }
+    if(!reg.test(input)){
+        regErr = "Only English alphabet and space are allowed."
+    }
+    return lenErr + regErr
+}
+
 document.getElementById("submit").addEventListener('click', sendRequest);
 document.getElementById("save").addEventListener('click', saveData)
 document.getElementById("clear").addEventListener('click', clearSavedData)
+document.getElementById("name").addEventListener('input', checkInput)
