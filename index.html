@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    <title>Name to Gender Converter</title>
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+        <div class="form">
+            <div class="top-form" id="top-form">
+                <p class="error" id="error"></p>
+            </div>
+            <div class="bottom-form">
+                <div class="left-form sub-form">
+                    <h2>Mr. or Ms.?</h2>
+                    <div class="input">
+                        <label for="name">name</label>
+                        <input type="text" id="name" name="name"><br><br>
+                    </div>
+                    <input type="radio" id="gender-male" name="gender" value="Male">
+                    <label for="gender-male">Male</label><br>
+                    <input type="radio" id="gender-female" name="gender" value="Female">
+                    <label for="gender-female">Female</label><br><br>
+                    <button id="submit">Submit</button><br>
+                    <button id="save">Save</button>
+                </div>
+                <div class="right-form sub-form">
+                    <div>
+                        <h2>Prediction</h2>
+                        <p id="api-data"></p>
+                        <p id="prob"></p>
+
+                    </div>
+
+                    <div id="saved-answer-div">
+                        <h2>Saved Answer</h2>
+                        <p id="saved-data"></p>
+                        <button id="clear">Clear</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+<script src="./js/index.js"></script>
+</body>
+
+</html>
