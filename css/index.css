@@ -1,3 +1,4 @@
+/*setting background image for thr body and flex to center the child div*/
 body  {
     background-image: url("../assets/kym-mackinnon-aLiPz33NHAc-unsplash.jpg");
     background-color: #cccccc;
@@ -11,6 +12,9 @@ body  {
     justify-content: space-around;
 }
 
+/*set background color to the center div and opacity to make it transparent
+set flex to make child divs have a column order
+*/
 .form{
     background-color: rgba(255,255,255,.2);
     /*opacity: 0.5;*/
@@ -20,40 +24,61 @@ body  {
     border-radius: 25px;
 }
 
+/*the bottom form has a flex display for its child divs*/
+.bottom-form{
+    display: flex;
+    flex-direction: row;
+}
+
+/*
+sub forms of the display form should each have 50% of width
+*/
 .sub-form{
     padding: 0px 10px 0px 10px;
     width: 50%;
 }
-.right-form{
+
+
+/*
+right sub-form has a flex display for its child element
+*/
+.right-sub-form{
     display: flex;
     justify-content: space-between;
     flex-direction: column;
 }
 
+/*
+input div has a flex display for its child element
+*/
 .input{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
+/* label in the input div has 20% of the width*/
 .input label{
     width: 20%;
 }
 
+/* input box in the input div has 60% of the width and 60% of the height*/
 .input input{
     width: 60%;
     height: 60%;
 }
 
+/*set the border of the saved answer area*/
 #saved-answer-div{
     border: dotted;
     border-width: medium;
 }
-
+/*update the margin for the h2 tag in saved answer area*/
 #saved-answer-div h2{
     margin: 0 0 20px 0;
 }
 
+/* set a global css for all buttons */
 button{
     background-color: white;
     color: black;
@@ -64,11 +89,7 @@ button{
     margin: 5px 0 5px 0;
 }
 
-.bottom-form{
-    display: flex;
-    flex-direction: row;
-}
-
+/*set the css for the error message*/
 .error{
     color: darkred;
     font-weight: bold;

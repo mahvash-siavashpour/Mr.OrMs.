@@ -1,6 +1,7 @@
+// the api url to send requests
 const url = "https://api.genderize.io/"
 
-
+// shows appropriate error message on the web page using a <p> tag
 function showError(errorContent) {
     console.log("Show error")
     let textareaObject = document.getElementById("error");
@@ -11,7 +12,7 @@ function showError(errorContent) {
 
 }
 
-// get user data from API and return the json value.
+// get data from API and return the json value.
 async function getGenderFromAPI(name) {
     console.log("request");
     try {
@@ -34,13 +35,14 @@ async function getGenderFromAPI(name) {
     }
 }
 
-// the process of sending data and fill it in view.
+// clears the output section on web page and reads input and send request using getGenderFromAPI function
+// then handle the output data using handleOutputData function
 async function sendRequest(e) {
     document.getElementById("saved-data").innerHTML = "";
     document.getElementById("api-data").innerHTML = "";
     document.getElementById("prob").innerHTML = "";
     console.log("clicked on submit");
-    let username = document.getElementById("name").value;
+    let name = document.getElementById("name").value;
     let validation = validator()
     if (username == "") {
         console.log("username was empty");
@@ -53,28 +55,32 @@ async function sendRequest(e) {
         return
     }
     e.preventDefault();
-    let userData = await getGenderFromAPI(username);
-    console.log(userData)
-    handleUserData(userData)
+    let data = await getGenderFromAPI(name);
+    console.log(data)
+    handleOutputData(data)
 }
 
-function handleUserData(userData){
+//handles the output data either by showing the saved data or the server data (API)
+function handleOutputData(data){
 
-    showSavedData(userData.name)
-    showAPIData(userData)
+    showSavedData(data.name)
+    showAPIData(data)
 }
 
+// saved data declared by client
 function saveData(){
     let name = document.getElementById("name").value;
     let gender = document.querySelector('input[name="gender"]:checked').value;
     window.localStorage.setItem(name, gender);
 }
 
+// clears a specific data from local storage using a name as the key
 function clearSavedData(){
     let name = document.getElementById("name").value;
     window.localStorage.removeItem(name)
 }
 
+// searches local storage to fetch the gender of a specific name and if found displays it on the webpage
 function showSavedData(name){
     console.log("s")
     console.log(window.localStorage.getItem(name))
@@ -85,6 +91,7 @@ function showSavedData(name){
     }
 }
 
+// checks if the server had the gender and if true displays it existed on the webpage
 function showAPIData(data){
     if (data.gender != null){
         document.getElementById("api-data").innerHTML = data.gender ;
@@ -94,12 +101,13 @@ function showAPIData(data){
 
 }
 
-
+// checks if the input is valid and if not displays an error massage
 function checkInput(){
     let err = validator()
     showError(err)
 }
 
+// validates input by length and regex
 function validator(){
     let input = document.getElementById("name").value;
     let length = input.length
@@ -115,6 +123,7 @@ function validator(){
     return lenErr + regErr
 }
 
+// assigning appropriate listeners to each element on the webpage
 document.getElementById("submit").addEventListener('click', sendRequest);
 document.getElementById("save").addEventListener('click', saveData)
 document.getElementById("clear").addEventListener('click', clearSavedData)
