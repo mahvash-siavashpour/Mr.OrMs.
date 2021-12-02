@@ -43,6 +43,10 @@ async function sendRequest(e) {
     document.getElementById("saved-data").innerHTML = "";
     document.getElementById("api-data").innerHTML = "";
     document.getElementById("prob").innerHTML = "";
+    //clear radio boxes
+    let radio = document.getElementsByName("gender");
+    for(let i=0;i<radio.length;i++)
+        radio[i].checked = false;
     //get input name from html input tag
     let name = document.getElementById("name").value;
     //validate the input
