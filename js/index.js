@@ -1,33 +1,34 @@
 // the api url to send requests
 const url = "https://api.genderize.io/"
+
+//some variables to use globally
 var serverOutput;
-// shows appropriate error message on the web page using a <p> tag
+var oldNam;
+
+// shows appropriate error message on the web page using a <p> tag (modifying the content of the tag)
 function showError(errorContent) {
-    console.log("Show error")
     let textareaObject = document.getElementById("error");
     textareaObject.innerHTML = errorContent;
-    setTimeout(() => { // removes the error message from screen after 4 seconds.
+    setTimeout(() => { // removes the error message from screen after 5 seconds.
         textareaObject.innerHTML = ""
-    }, 4000)
+    }, 5000)
 
 }
 
 // get data from API and return the json value.
 async function getGenderFromAPI(name) {
-    console.log("request");
     try {
-        console.log(url+"?name="+name)
+        // make a GET http request using fetch api
         let response = await fetch(url+"?name="+name)
         let json = await response.json();
+        //if the response was ok
         if (response.status == 200) {
+            //check if the name was found on server
             if (json.gender == null){
-                console.log("Name not found")
                 showError("Name not found on server")
-                return json
             }
             return json
         }
-        console.log("Error")
         showError(`Request failed with error ${response.status}`)
     } catch (e) {
         console.log(e);
@@ -38,26 +39,27 @@ async function getGenderFromAPI(name) {
 // clears the output section on web page and reads input and send request using getGenderFromAPI function
 // then handle the output data using handleOutputData function
 async function sendRequest(e) {
+    //clear the html output area
     document.getElementById("saved-data").innerHTML = "";
     document.getElementById("api-data").innerHTML = "";
     document.getElementById("prob").innerHTML = "";
-    console.log("clicked on submit");
+    //get input name from html input tag
     let name = document.getElementById("name").value;
+    //validate the input
     let validation = validator()
-    if (name == "") {
-        console.log("username was empty");
-        showError("Enter a name")
-        return;
-    }
-    else if(validation !== ""){
-        console.log(validation)
+    if(validation !== ""){
         showError(validation)
         return
     }
+    //prevent the event from doing the default function
     e.preventDefault();
+    //set this new name as the old name in order to use it in "save" function
+    oldNam = name;
+    //send a request and get the data
     let data = await getGenderFromAPI(name);
+    // set the data as "serverData"
     serverOutput = data;
-    console.log(data)
+    //handle the data in order to be displayed
     handleOutputData(data)
 }
 
@@ -70,6 +72,11 @@ function handleOutputData(data){
 
 // saved data either declared by client or from server
 function saveData(){
+    let validation = validator()
+    if(validation !== ""){
+        showError(validation)
+        return
+    }
     let name = document.getElementById("name").value;
     let gender;
     if(document.getElementById("gender-male").checked){
@@ -81,7 +88,13 @@ function saveData(){
     else {
         gender = serverOutput.gender
     }
-    console.log(gender)
+
+    // if the last name that was fetched from server was the same name we are saving we can update the html
+    if(oldNam == name){
+        document.getElementById("saved-data").innerHTML = gender;
+    }
+
+
     window.localStorage.setItem(name, gender);
 }
 
@@ -89,12 +102,14 @@ function saveData(){
 function clearSavedData(){
     let name = document.getElementById("name").value;
     window.localStorage.removeItem(name)
+    // if the last name that was fetched from server was the same name we are saving we can update the html
+    if(oldNam == name){
+        document.getElementById("saved-data").innerHTML = "";
+    }
 }
 
 // searches local storage to fetch the gender of a specific name and if found displays it on the webpage
 function showSavedData(name){
-    console.log("s")
-    console.log(window.localStorage.getItem(name))
     let gender = window.localStorage.getItem(name);
     if (gender !== null){
         let p = document.getElementById("saved-data");
@@ -112,7 +127,7 @@ function showAPIData(data){
 
 }
 
-// checks if the input is valid and if not displays an error massage
+// checks if the input is valid and if not displays an error message
 function checkInput(){
     let err = validator()
     showError(err)
@@ -120,7 +135,12 @@ function checkInput(){
 
 // validates input by length and regex
 function validator(){
+
     let input = document.getElementById("name").value;
+    if (input == "") {
+
+        return "Enter a name";
+    }
     let length = input.length
     var reg = /^[a-zA-Z\s]*$/;
     let lenErr = ""

@@ -1,4 +1,6 @@
-/*setting background image for thr body and flex to center the child div*/
+/*setting background image for thr body and flex to center the child div
+assiging values 100% for height and width to make it full screen
+*/
 body  {
     background-image: url("../assets/kym-mackinnon-aLiPz33NHAc-unsplash.jpg");
     background-color: #cccccc;
@@ -14,14 +16,19 @@ body  {
 
 /*set background color to the center div and opacity to make it transparent
 set flex to make child divs have a column order
+set padding for a nice look
 */
 .form{
     background-color: rgba(255,255,255,.2);
     /*opacity: 0.5;*/
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     padding: 25px 25px 25px 25px;
     border-radius: 25px;
+    min-width: 35%;
+    min-height: 40%;
+
 }
 
 /*the bottom form has a flex display for its child divs*/
@@ -49,29 +56,46 @@ right sub-form has a flex display for its child element
 }
 
 /*
+left sub-form has a flex display for its child element
+*/
+.left-sub-form{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+/*
 input div has a flex display for its child element
 */
 .input{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 
 /* label in the input div has 20% of the width*/
 .input label{
     width: 20%;
+    margin: 2px;
 }
 
 /* input box in the input div has 60% of the width and 60% of the height*/
 .input input{
     width: 60%;
     height: 60%;
+    margin: 2px;
 }
 
-/*set the border of the saved answer area*/
+/*set a padding for prediction div for better look*/
+#prediction-div{
+    padding: 5px;
+}
+
+/*set the border of the saved answer area to dotted form and make it have a medium width*/
 #saved-answer-div{
     border: dotted;
     border-width: medium;
+    padding: 5px;
 }
 /*update the margin for the h2 tag in saved answer area*/
 #saved-answer-div h2{
@@ -83,8 +107,8 @@ button{
     background-color: white;
     color: black;
     border: 2px solid; /* Green */
-    border-radius: 5px;
-    padding: 1px 10px 1px 10px;
+    border-radius: 8px;
+    padding: 3px 10px 3px 10px;
     width: 70px;
     margin: 5px 0 5px 0;
 }
@@ -94,3 +118,9 @@ button{
     color: darkred;
     font-weight: bold;
 }
+
+/*set margin for radio box div*/
+#radio-box-div{
+    margin: 10px 0 25px 0;
+}
+
